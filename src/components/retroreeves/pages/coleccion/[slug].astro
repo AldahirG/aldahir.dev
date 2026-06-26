@@ -1,0 +1,541 @@
+---
+import Layout from "../../layouts/Layout.astro"
+import { getDrops, getDropBySlug } from "../../lib/drops"
+import { getProducts } from "../../lib/products"
+import Navbar from "../../components/navbar"
+import Footer from "../../components/footer"
+import QuickviewModal from "../../components/products/QuickviewModal.astro"
+
+export async function getStaticPaths() {
+  const drops = await getDrops()
+  return drops.map((drop) => ({
+    params: { slug: drop.slug }
+  }))
+}
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "")
+const url = (src: string) => src?.startsWith('http') ? src : `${base}/${src}`
+const { slug } = Astro.params
+const drop = await getDropBySlug(slug)
+const allProducts = await getProducts()
+const products = allProducts.filter(
+  p => p.category === slug || p.dropSlug === slug
+)
+---
+
+<Layout title={drop ? drop.name : "Colección"}>
+  <style define:vars={{ accent: drop?.accentColor ?? "#e63946" }}>
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --ink: #0d0d0d;
+      --paper: #f5f0e8;
+      --accent: var(--accent);
+      --mono: "PT Mono", monospace;
+      --sans: "Noto Sans", sans-serif;
+    }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    .drop-hero {
+      position: relative;
+      min-height: 100vh;
+      margin-top: -64px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      background: var(--ink);
+    }
+
+    .drop-hero__bg {
+      position: absolute;
+      inset: 0;
+      background-image: var(--hero-img);
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.06);
+      animation: heroZoom 12s ease-out forwards;
+      filter: brightness(0.55);
+    }
+
+    @keyframes heroZoom {
+      to { transform: scale(1); }
+    }
+
+    .drop-hero__noise {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+
+    .drop-hero__content {
+      position: relative;
+      z-index: 2;
+      padding: 4rem 2rem;
+      max-width: 900px;
+    }
+
+    .drop-hero__tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.25rem 0.75rem;
+      margin-bottom: 1.25rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .drop-hero__title {
+      font-family: "Noto Sans", sans-serif;
+      font-weight: 800;
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: 0.92;
+      color: #fff;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+
+    .drop-hero__title span {
+      color: var(--accent);
+    }
+
+    .drop-hero__sub {
+      font-family: var(--sans);
+      font-size: 1rem;
+      color: rgba(255,255,255,0.65);
+      max-width: 480px;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    /* ── COUNTDOWN ───────────────────────────────────────── */
+    .countdown-bar {
+      background: var(--ink);
+      padding: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .countdown-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .countdown-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .countdown-units {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .countdown-unit {
+      text-align: center;
+      min-width: 68px;
+    }
+
+    .countdown-unit__number {
+      font-family: var(--mono);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      display: block;
+      transition: color 0.3s;
+    }
+
+    .countdown-unit__number.tick {
+      color: var(--accent);
+    }
+
+    .countdown-unit__label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      display: block;
+      margin-top: 0.25rem;
+    }
+
+    .countdown-sep {
+      font-family: var(--mono);
+      font-size: 2rem;
+      color: rgba(255,255,255,0.2);
+      line-height: 1;
+      padding-bottom: 0.25rem;
+      align-self: flex-end;
+    }
+
+    .countdown-expired {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── PRODUCTS SECTION ────────────────────────────────── */
+    .drop-products {
+      background: var(--paper);
+      padding: 5rem 2rem;
+    }
+
+    .drop-products__header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 1rem;
+    }
+
+    .drop-products__title {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 1.6rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .drop-products__count {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: rgba(0,0,0,0.4);
+      letter-spacing: 0.1em;
+    }
+
+    .drop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ── PRODUCT CARD ────────────────────────────────────── */
+    .drop-card {
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(.22,.68,0,1.2);
+    }
+
+    .drop-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .drop-card__badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 2;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.25rem 0.6rem;
+    }
+
+    .drop-card__img-wrap {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: #eee;
+    }
+
+    .drop-card__img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .drop-card:hover .drop-card__img-wrap img {
+      transform: scale(1.05);
+    }
+
+    .drop-card__info {
+      padding: 1.25rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .drop-card__name {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+
+    .drop-card__sizes {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: rgba(0,0,0,0.4);
+      margin-bottom: 0.75rem;
+    }
+
+    .drop-card__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drop-card__price {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--ink);
+    }
+
+    .drop-card__btn {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+
+    .drop-card__btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ── EMPTY STATE ─────────────────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 5rem 2rem;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .empty-state__icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.3;
+    }
+
+    .empty-state__text {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: rgba(0,0,0,0.4);
+    }
+
+    /* ── ANIMATIONS ──────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .countdown-unit { min-width: 52px; }
+      .countdown-unit__number { font-size: 1.8rem; }
+    }
+  </style>
+
+  <main>
+    <Navbar client:load />
+
+    {drop ? (
+      <>
+        {/* ── HERO ── */}
+        <section
+          class="drop-hero"
+          style={`--hero-img: url('${url(drop.heroImage)}')`}
+        >
+          <div class="drop-hero__bg"></div>
+          <div class="drop-hero__noise"></div>
+          <div class="container drop-hero__content">
+            <div class="drop-hero__tag">Colección</div>
+            <h1 class="drop-hero__title">
+              {drop.name.split(" ").map((word, i) =>
+                i === drop.name.split(" ").length - 1
+                  ? <span>{word}</span>
+                  : <>{word} </>
+              )}
+            </h1>
+            <p class="drop-hero__sub">{drop.subtitle}</p>
+          </div>
+        </section>
+
+        {/* ── COUNTDOWN ── */}
+        <div class="countdown-bar">
+          <div class="countdown-inner">
+            <span class="countdown-label">Disponible hasta</span>
+            <div
+              class="countdown-units"
+              id="countdown"
+              data-end={drop.endDate}
+            >
+              <div class="countdown-unit">
+                <span class="countdown-unit__number" id="cd-days">--</span>
+                <span class="countdown-unit__label">días</span>
+              </div>
+              <span class="countdown-sep">:</span>
+              <div class="countdown-unit">
+                <span class="countdown-unit__number" id="cd-hours">--</span>
+                <span class="countdown-unit__label">horas</span>
+              </div>
+              <span class="countdown-sep">:</span>
+              <div class="countdown-unit">
+                <span class="countdown-unit__number" id="cd-mins">--</span>
+                <span class="countdown-unit__label">min</span>
+              </div>
+              <span class="countdown-sep">:</span>
+              <div class="countdown-unit">
+                <span class="countdown-unit__number" id="cd-secs">--</span>
+                <span class="countdown-unit__label">seg</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── PRODUCTS ── */}
+        <section class="drop-products">
+          <div class="drop-products__header">
+            <h2 class="drop-products__title">Piezas de la colección</h2>
+            <span class="drop-products__count">{products.length} producto{products.length !== 1 ? "s" : ""}</span>
+          </div>
+
+          {products.length > 0 ? (
+            <div class="drop-grid">
+              {products.map(product => (
+                <article class="drop-card">
+                  {product.limited && (
+                    <span class="drop-card__badge">Limited</span>
+                  )}
+                  <div class="drop-card__img-wrap">
+                    <img
+                      src={url(product.images[0])}
+                      alt={product.name}
+                      loading="lazy"
+                    />
+                    <button
+                      class="rr-qv-trigger"
+                      data-slug={product.slug}
+                      data-name={product.name}
+                      data-price={String(product.price)}
+                      data-images={JSON.stringify(product.images)}
+                      data-sizes={JSON.stringify(product.sizes)}
+                      data-colors={JSON.stringify(product.colors)}
+                      data-description={(product as any).description ?? ""}
+                      data-limited={(product as any).limited ? "1" : ""}
+                      data-drop={(product as any).drop ? "1" : ""}
+                      type="button"
+                      aria-label={`Vista rápida de ${product.name}`}
+                    >
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                      </svg>
+                      Vista rápida
+                    </button>
+                  </div>
+                  <div class="drop-card__info">
+                    <div class="drop-card__name">{product.name}</div>
+                    <div class="drop-card__sizes">
+                      {product.sizes.join(" · ")}
+                    </div>
+                    <div class="drop-card__footer">
+                      <span class="drop-card__price">${product.price} MXN</span>
+                      <a
+                        href={`${base}/product/${product.slug}`}
+                        class="drop-card__btn"
+                      >
+                        Ver →
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div class="empty-state">
+              <div class="empty-state__icon">◻</div>
+              <p class="empty-state__text">Próximamente — los productos de esta colección se revelarán pronto.</p>
+            </div>
+          )}
+        </section>
+      </>
+    ) : (
+      <div class="empty-state" style="padding-top: 8rem;">
+        <p class="empty-state__text">Colección no encontrada.</p>
+      </div>
+    )}
+
+    <Footer client:load />
+    <QuickviewModal base={base} />
+  </main>
+</Layout>
+
+<script>
+  function pad(n: number) {
+    return String(n).padStart(2, "0")
+  }
+
+  function tick() {
+    const el = document.getElementById("countdown")
+    if (!el) return
+
+    const endDate = el.dataset.end
+    if (!endDate) return
+
+    const end = new Date(endDate).getTime()
+    const now = Date.now()
+    const diff = end - now
+
+    if (diff <= 0) {
+      el.innerHTML = `<span class="countdown-expired">Esta colección ha cerrado</span>`
+      return
+    }
+
+    const days  = Math.floor(diff / 86_400_000)
+    const hours = Math.floor((diff % 86_400_000) / 3_600_000)
+    const mins  = Math.floor((diff % 3_600_000) / 60_000)
+    const secs  = Math.floor((diff % 60_000) / 1_000)
+
+    const set = (id: string, val: string, changed: boolean) => {
+      const node = document.getElementById(id)
+      if (!node) return
+      if (node.textContent !== val) {
+        node.textContent = val
+        if (changed) {
+          node.classList.add("tick")
+          setTimeout(() => node.classList.remove("tick"), 300)
+        }
+      }
+    }
+
+    const prevSecs = document.getElementById("cd-secs")?.textContent ?? ""
+
+    set("cd-days",  pad(days),  false)
+    set("cd-hours", pad(hours), false)
+    set("cd-mins",  pad(mins),  false)
+    set("cd-secs",  pad(secs),  prevSecs !== pad(secs))
+  }
+
+  tick()
+  setInterval(tick, 1_000)
+</script>

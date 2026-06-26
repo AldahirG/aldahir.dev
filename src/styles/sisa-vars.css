@@ -1,0 +1,28 @@
+/* SISA CSS variables — light theme */
+:root {
+  --sisa-primary:      #1565C0;
+  --sisa-primary-l:    #1976D2;
+  --sisa-border:       #e5e7eb;
+  --sisa-accent-surface: rgba(21,101,192,0.05);
+  --sisa-banner-danger-bg: rgba(239,68,68,0.08);
+  --sisa-banner-danger-bd: rgba(239,68,68,0.3);
+  --sisa-banner-warn-bg:   rgba(245,158,11,0.08);
+  --sisa-banner-warn-bd:   rgba(245,158,11,0.3);
+  --sisa-tint-blue:   rgba(21,101,192,0.1);
+  --sisa-tint-amber:  rgba(245,158,11,0.1);
+  --sisa-tint-green:  rgba(16,185,129,0.1);
+  --sisa-tint-red:    rgba(239,68,68,0.1);
+  --sisa-tint-purple: rgba(139,92,246,0.1);
+  --sisa-icon-blue:   #1565C0;
+  --sisa-icon-amber:  #d97706;
+  --sisa-icon-green:  #059669;
+  --sisa-icon-red:    #dc2626;
+  --sisa-icon-purple: #7c3aed;
+  /* PrimeVue surface tokens */
+  --surface-card:   #ffffff;
+  --surface-ground: #f9fafb;
+  --text-color:     #111827;
+  --text-color-secondary: #6b7280;
+  --p-progressbar-background: #e5e7eb;
+  --p-progressbar-value-background: #1565C0;
+}

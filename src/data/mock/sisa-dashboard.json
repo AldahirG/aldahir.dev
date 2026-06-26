@@ -1,0 +1,29 @@
+{
+  "periodo_activo": "ENE–JUN 2025",
+  "alumnos": { "total": 145, "activos": 132 },
+  "empresas": { "total": 42, "nuevas": 8 },
+  "vacantes": { "total": 89, "disponibles": 23 },
+  "postulaciones": { "total": 287, "pendientes": 45 },
+  "encuestas": {
+    "empresas": { "enviadas": 42, "contestadas": 38 },
+    "alumnos": { "enviadas": 145, "contestadas": 111 }
+  },
+  "postulaciones_por_estado": [
+    { "estado": "Aceptadas", "total": 201, "color": "#22c55e" },
+    { "estado": "Pendientes", "total": 45, "color": "#f59e0b" },
+    { "estado": "Rechazadas", "total": 28, "color": "#ef4444" },
+    { "estado": "Canceladas", "total": 13, "color": "#9ca3af" }
+  ],
+  "entregables": [
+    { "tipo": "Formato 1", "total": 145, "entregados": 132, "color": "#1565C0" },
+    { "tipo": "Formato 2", "total": 145, "entregados": 98,  "color": "#7c3aed" },
+    { "tipo": "Reporte final", "total": 145, "entregados": 67, "color": "#0891b2" }
+  ],
+  "alumnos_recientes": [
+    { "matricula": "210001", "nombre": "Ana García López", "carrera": "ISC", "empresa": "TechSolutions MX", "estado": "Activo", "periodo": "ENE–JUN 2025" },
+    { "matricula": "210002", "nombre": "Carlos Ramírez Pérez", "carrera": "IEC", "empresa": "Grupo Industrial Norte", "estado": "Activo", "periodo": "ENE–JUN 2025" },
+    { "matricula": "210003", "nombre": "María Hernández Cruz", "carrera": "LAE", "empresa": "Banco Regional SA", "estado": "Pendiente", "periodo": "ENE–JUN 2025" },
+    { "matricula": "210004", "nombre": "Luis Morales Torres", "carrera": "ISC", "empresa": "StartupMX", "estado": "Activo", "periodo": "ENE–JUN 2025" },
+    { "matricula": "210005", "nombre": "Patricia Soto Ruiz", "carrera": "CP", "empresa": "Despacho Financiero AM", "estado": "Concluido", "periodo": "AGO–DIC 2024" }
+  ]
+}

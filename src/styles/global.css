@@ -1,0 +1,65 @@
+@import "./variables.css";
+@import "./typography.css";
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background: var(--gray600);
+padding-top:80px;
+
+}
+
+.container{
+max-width: var(--container);
+margin:auto;
+padding:40px 20px;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:40px;
+}
+
+@media (max-width:900px){
+
+.grid{
+
+grid-template-columns:1fr 1fr;
+
+}
+
+.services-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media (max-width:600px){
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+html{
+
+scroll-behavior:smooth;
+
+}
+.navbar{
+
+position:fixed;
+top:0;
+width:100%;
+z-index:1000;
+
+}

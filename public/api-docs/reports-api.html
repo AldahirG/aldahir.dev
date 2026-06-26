@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reports API — Documentación</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #161b27;
+      --border: rgba(255,255,255,0.07);
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --green: #22c55e;
+      --blue: #3b82f6;
+      --orange: #f59e0b;
+      --red: #ef4444;
+      --purple: #8b5cf6;
+      --get: #22c55e;
+      --post: #3b82f6;
+      --delete: #ef4444;
+      --java: #f89820;
+    }
+
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 280px; flex-shrink: 0; background: var(--surface);
+      border-right: 1px solid var(--border); height: 100vh;
+      position: sticky; top: 0; overflow-y: auto; padding: 0 0 40px;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .api-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(248,152,32,0.12); border: 1px solid rgba(248,152,32,0.3);
+      color: var(--java); font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 99px; margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .api-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+    .api-version { font-size: 11px; color: var(--muted); }
+
+    .sidebar-section { padding: 20px 20px 0; }
+    .sidebar-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+
+    .sidebar-link {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 10px; border-radius: 7px; cursor: pointer;
+      font-size: 13px; color: var(--muted); transition: all 0.15s;
+      border: none; background: none; width: 100%; text-align: left;
+    }
+    .sidebar-link:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+    .sidebar-link.active { background: rgba(59,130,246,0.1); color: #93c5fd; }
+
+    .method-dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+    }
+    .dot-get    { background: var(--get); }
+    .dot-post   { background: var(--post); }
+    .dot-delete { background: var(--delete); }
+
+    .sidebar-tech { padding: 20px; margin-top: 20px; border-top: 1px solid var(--border); }
+    .tech-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tech-chip {
+      font-size: 10.5px; font-weight: 600; padding: 3px 9px;
+      border-radius: 5px; border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04); color: var(--muted);
+    }
+    .chip-java   { border-color: rgba(248,152,32,0.3); color: #f89820; background: rgba(248,152,32,0.06); }
+    .chip-spring { border-color: rgba(109,179,63,0.3); color: #6db33f; background: rgba(109,179,63,0.06); }
+    .chip-jwt    { border-color: rgba(139,92,246,0.3); color: #a78bfa; background: rgba(139,92,246,0.06); }
+    .chip-mysql  { border-color: rgba(0,117,143,0.3); color: #22d3ee; background: rgba(0,117,143,0.06); }
+    .chip-swagger { border-color: rgba(34,197,94,0.3); color: #4ade80; background: rgba(34,197,94,0.06); }
+
+    /* MAIN */
+    .main { flex: 1; padding: 40px 48px; max-width: 900px; overflow-y: auto; }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--muted); font-size: 13px; text-decoration: none;
+      margin-bottom: 32px; transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    .page-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-sub { color: var(--muted); font-size: 15px; margin-bottom: 36px; line-height: 1.6; }
+
+    /* AUTH INFO */
+    .auth-box {
+      background: rgba(139,92,246,0.06); border: 1px solid rgba(139,92,246,0.2);
+      border-radius: 12px; padding: 16px 20px; margin-bottom: 40px;
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .auth-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+    .auth-title { font-size: 13px; font-weight: 700; color: #c4b5fd; margin-bottom: 4px; }
+    .auth-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+    .auth-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px; background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 8px 12px; margin-top: 8px; color: #93c5fd; display: block;
+    }
+
+    /* ENDPOINT */
+    .endpoint-group { margin-bottom: 48px; }
+    .group-title {
+      font-size: 18px; font-weight: 700; margin-bottom: 20px;
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    }
+
+    .endpoint {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; margin-bottom: 14px; overflow: hidden;
+    }
+
+    .endpoint-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 18px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .endpoint-header:hover { background: rgba(255,255,255,0.02); }
+
+    .method-badge {
+      font-size: 11px; font-weight: 800; padding: 3px 10px;
+      border-radius: 5px; font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.04em; flex-shrink: 0; min-width: 54px; text-align: center;
+    }
+    .method-get    { background: rgba(34,197,94,0.12);  color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
+    .method-post   { background: rgba(59,130,246,0.12); color: #93c5fd; border: 1px solid rgba(59,130,246,0.25); }
+    .method-delete { background: rgba(239,68,68,0.12);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.25); }
+
+    .endpoint-path {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13.5px; color: var(--text); flex: 1;
+    }
+    .endpoint-summary { font-size: 12.5px; color: var(--muted); margin-left: auto; }
+
+    .chevron { color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
+    .chevron.open { transform: rotate(180deg); }
+
+    .endpoint-body {
+      border-top: 1px solid var(--border);
+      padding: 20px 18px;
+      display: none;
+    }
+    .endpoint-body.open { display: block; }
+
+    .body-section { margin-bottom: 20px; }
+    .body-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+
+    .params-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .params-table th { text-align: left; padding: 6px 10px; font-size: 10.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    .params-table td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+    .param-name { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #93c5fd; }
+    .param-type { font-size: 11px; color: var(--orange); font-family: 'JetBrains Mono', monospace; }
+    .param-required { font-size: 10px; color: #fca5a5; font-weight: 700; }
+    .param-desc { color: var(--muted); font-size: 12px; }
+
+    .code-block {
+      background: rgba(0,0,0,0.35); border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; color: #a5f3fc;
+      overflow-x: auto; white-space: pre; line-height: 1.7;
+    }
+
+    .try-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 8px 18px; background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(59,130,246,0.3); color: #93c5fd;
+      border-radius: 8px; font-size: 13px; font-weight: 600;
+      cursor: pointer; margin-top: 12px; transition: all 0.2s;
+    }
+    .try-btn:hover { background: rgba(59,130,246,0.22); }
+
+    .response-mock {
+      margin-top: 12px; display: none;
+    }
+    .response-mock.visible { display: block; }
+
+    .response-header {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+    }
+    .status-200 { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.25); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 5px; font-family: 'JetBrains Mono', monospace; }
+
+    .key   { color: #93c5fd; }
+    .str   { color: #86efac; }
+    .num   { color: #fbbf24; }
+    .bool  { color: #f472b6; }
+    .null  { color: var(--muted); }
+
+    /* DEPLOY INFO */
+    .deploy-box {
+      background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 12px; padding: 20px; margin-top: 40px;
+    }
+    .deploy-title { font-size: 14px; font-weight: 700; color: #4ade80; margin-bottom: 10px; }
+    .deploy-url { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a5f3fc; }
+    .deploy-meta { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="api-badge">☕ Spring Boot 3</div>
+    <div class="api-title">Reports & Analytics API</div>
+    <div class="api-version">v1.0.0 · REST · OpenAPI 3.1</div>
+  </div>
+
+  <div class="sidebar-section" style="margin-top:16px">
+    <div class="sidebar-label">Dashboard</div>
+    <button class="sidebar-link active" onclick="scrollTo('dashboard')">
+      <span class="method-dot dot-get"></span> GET /dashboard/summary
+    </button>
+    <button class="sidebar-link" onclick="scrollTo('dashboard')">
+      <span class="method-dot dot-get"></span> GET /dashboard/kpis
+    </button>
+  </div>
+
+  <div class="sidebar-section" style="margin-top:12px">
+    <div class="sidebar-label">Reportes</div>
+    <button class="sidebar-link" onclick="scrollTo('reportes')">
+      <span class="method-dot dot-get"></span> GET /reports/leads
+    </button>
+    <button class="sidebar-link" onclick="scrollTo('reportes')">
+      <span class="method-dot dot-get"></span> GET /reports/inscripciones
+    </button>
+    <button class="sidebar-link" onclick="scrollTo('reportes')">
+      <span class="method-dot dot-get"></span> GET /reports/promotores
+    </button>
+  </div>
+
+  <div class="sidebar-section" style="margin-top:12px">
+    <div class="sidebar-label">Exportación</div>
+    <button class="sidebar-link" onclick="scrollTo('export')">
+      <span class="method-dot dot-get"></span> GET /export/csv
+    </button>
+    <button class="sidebar-link" onclick="scrollTo('export')">
+      <span class="method-dot dot-get"></span> GET /export/pdf
+    </button>
+  </div>
+
+  <div class="sidebar-section" style="margin-top:12px">
+    <div class="sidebar-label">Auth</div>
+    <button class="sidebar-link" onclick="scrollTo('auth')">
+      <span class="method-dot dot-post"></span> POST /auth/login
+    </button>
+    <button class="sidebar-link" onclick="scrollTo('auth')">
+      <span class="method-dot dot-post"></span> POST /auth/refresh
+    </button>
+    <button class="sidebar-link" onclick="scrollTo('auth')">
+      <span class="method-dot dot-delete"></span> DELETE /auth/logout
+    </button>
+  </div>
+
+  <div class="sidebar-tech">
+    <div class="sidebar-label">Stack</div>
+    <div class="tech-chips">
+      <span class="tech-chip chip-java">Java 17</span>
+      <span class="tech-chip chip-spring">Spring Boot 3</span>
+      <span class="tech-chip chip-spring">Spring Security</span>
+      <span class="tech-chip chip-spring">Spring Data JPA</span>
+      <span class="tech-chip chip-jwt">JWT</span>
+      <span class="tech-chip chip-mysql">MySQL 8</span>
+      <span class="tech-chip chip-swagger">OpenAPI 3</span>
+      <span class="tech-chip">Railway</span>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <a href="/" class="back-link">
+    ← Volver al portafolio
+  </a>
+
+  <h1 class="page-title">Reports & Analytics API</h1>
+  <p class="page-sub">
+    API REST para generación de reportes en tiempo real sobre datos institucionales.
+    Soporta filtros dinámicos, paginación, exportación a CSV y PDF, y está protegida con JWT.
+    Construida como módulo backend complementario a los sistemas SICEL y SISA.
+  </p>
+
+  <!-- AUTH INFO -->
+  <div class="auth-box">
+    <span class="auth-icon">🔑</span>
+    <div>
+      <div class="auth-title">Autenticación requerida — Bearer JWT</div>
+      <div class="auth-desc">Todos los endpoints (excepto /auth/login) requieren un token JWT válido en el header Authorization.</div>
+      <code class="auth-code">Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...</code>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="endpoint-group" id="dashboard">
+    <h2 class="group-title">📊 Dashboard</h2>
+
+    <!-- GET /dashboard/summary -->
+    <div class="endpoint">
+      <div class="endpoint-header" onclick="toggle(this)">
+        <span class="method-badge method-get">GET</span>
+        <span class="endpoint-path">/api/v1/dashboard/summary</span>
+        <span class="endpoint-summary">Resumen general del período activo</span>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="endpoint-body">
+        <div class="body-section">
+          <div class="body-label">Query Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Nombre</th><th>Tipo</th><th>Req.</th><th>Descripción</th></tr></thead>
+            <tbody>
+              <tr><td><span class="param-name">ciclo</span></td><td><span class="param-type">string</span></td><td></td><td class="param-desc">Ej: "2025-2". Default: ciclo activo</td></tr>
+              <tr><td><span class="param-name">organizacionId</span></td><td><span class="param-type">long</span></td><td><span class="param-required">*</span></td><td class="param-desc">ID de la organización</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="body-section">
+          <div class="body-label">Response 200</div>
+          <div class="code-block"><span class="key">"data"</span>: {
+  <span class="key">"totalLeads"</span>: <span class="num">512</span>,
+  <span class="key">"inscritos"</span>: <span class="num">87</span>,
+  <span class="key">"tasaConversion"</span>: <span class="num">16.99</span>,
+  <span class="key">"promotoresActivos"</span>: <span class="num">4</span>,
+  <span class="key">"ciclo"</span>: <span class="str">"2025-2"</span>,
+  <span class="key">"ultimaActualizacion"</span>: <span class="str">"2025-06-26T10:30:00Z"</span>
+}</div>
+        </div>
+        <button class="try-btn" onclick="mockResponse(this, 'summary')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Probar endpoint
+        </button>
+        <div class="response-mock" id="mock-summary">
+          <div class="response-header"><span class="status-200">200 OK</span><span style="font-size:12px;color:var(--muted)">application/json · 38ms</span></div>
+          <div class="code-block">{
+  <span class="key">"status"</span>: <span class="str">"success"</span>,
+  <span class="key">"data"</span>: {
+    <span class="key">"totalLeads"</span>: <span class="num">512</span>,
+    <span class="key">"inscritos"</span>: <span class="num">87</span>,
+    <span class="key">"tasaConversion"</span>: <span class="num">16.99</span>,
+    <span class="key">"promotoresActivos"</span>: <span class="num">4</span>,
+    <span class="key">"ciclo"</span>: <span class="str">"2025-2"</span>,
+    <span class="key">"ultimaActualizacion"</span>: <span class="str">"2025-06-26T10:30:00Z"</span>
+  }
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GET /dashboard/kpis -->
+    <div class="endpoint">
+      <div class="endpoint-header" onclick="toggle(this)">
+        <span class="method-badge method-get">GET</span>
+        <span class="endpoint-path">/api/v1/dashboard/kpis</span>
+        <span class="endpoint-summary">KPIs por campaña y canal</span>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="endpoint-body">
+        <div class="body-section">
+          <div class="body-label">Response 200</div>
+          <div class="code-block"><span class="key">"kpis"</span>: [
+  { <span class="key">"canal"</span>: <span class="str">"Facebook Ads"</span>, <span class="key">"leads"</span>: <span class="num">234</span>, <span class="key">"conversion"</span>: <span class="num">18.4</span> },
+  { <span class="key">"canal"</span>: <span class="str">"Google Ads"</span>,   <span class="key">"leads"</span>: <span class="num">98</span>,  <span class="key">"conversion"</span>: <span class="num">21.4</span> },
+  { <span class="key">"canal"</span>: <span class="str">"Presencial"</span>,   <span class="key">"leads"</span>: <span class="num">180</span>, <span class="key">"conversion"</span>: <span class="num">12.2</span> }
+]</div>
+        </div>
+        <button class="try-btn" onclick="mockResponse(this, 'kpis')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Probar endpoint
+        </button>
+        <div class="response-mock" id="mock-kpis">
+          <div class="response-header"><span class="status-200">200 OK</span><span style="font-size:12px;color:var(--muted)">application/json · 52ms</span></div>
+          <div class="code-block">{
+  <span class="key">"status"</span>: <span class="str">"success"</span>,
+  <span class="key">"kpis"</span>: [
+    { <span class="key">"canal"</span>: <span class="str">"Facebook Ads"</span>, <span class="key">"leads"</span>: <span class="num">234</span>, <span class="key">"inscritos"</span>: <span class="num">43</span>, <span class="key">"conversion"</span>: <span class="num">18.4</span> },
+    { <span class="key">"canal"</span>: <span class="str">"Google Ads"</span>,   <span class="key">"leads"</span>: <span class="num">98</span>,  <span class="key">"inscritos"</span>: <span class="num">21</span>, <span class="key">"conversion"</span>: <span class="num">21.4</span> },
+    { <span class="key">"canal"</span>: <span class="str">"Presencial"</span>,   <span class="key">"leads"</span>: <span class="num">180</span>, <span class="key">"inscritos"</span>: <span class="num">22</span>, <span class="key">"conversion"</span>: <span class="num">12.2</span> },
+    { <span class="key">"canal"</span>: <span class="str">"TikTok Ads"</span>,   <span class="key">"leads"</span>: <span class="num">65</span>,  <span class="key">"inscritos"</span>: <span class="num">1</span>,  <span class="key">"conversion"</span>: <span class="num">1.5</span> }
+  ]
+}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORTES -->
+  <div class="endpoint-group" id="reportes">
+    <h2 class="group-title">📋 Reportes</h2>
+
+    <!-- GET /reports/leads -->
+    <div class="endpoint">
+      <div class="endpoint-header" onclick="toggle(this)">
+        <span class="method-badge method-get">GET</span>
+        <span class="endpoint-path">/api/v1/reports/leads</span>
+        <span class="endpoint-summary">Leads con filtros dinámicos y paginación</span>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="endpoint-body">
+        <div class="body-section">
+          <div class="body-label">Query Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Nombre</th><th>Tipo</th><th>Req.</th><th>Descripción</th></tr></thead>
+            <tbody>
+              <tr><td><span class="param-name">organizacionId</span></td><td><span class="param-type">long</span></td><td><span class="param-required">*</span></td><td class="param-desc">ID de la organización</td></tr>
+              <tr><td><span class="param-name">fechaInicio</span></td><td><span class="param-type">date</span></td><td></td><td class="param-desc">Ej: 2025-01-01</td></tr>
+              <tr><td><span class="param-name">fechaFin</span></td><td><span class="param-type">date</span></td><td></td><td class="param-desc">Ej: 2025-06-30</td></tr>
+              <tr><td><span class="param-name">seguimiento</span></td><td><span class="param-type">string</span></td><td></td><td class="param-desc">Inscrito, Interesado, Contactado</td></tr>
+              <tr><td><span class="param-name">promotorId</span></td><td><span class="param-type">long</span></td><td></td><td class="param-desc">Filtrar por promotor</td></tr>
+              <tr><td><span class="param-name">page</span></td><td><span class="param-type">int</span></td><td></td><td class="param-desc">Default: 0</td></tr>
+              <tr><td><span class="param-name">size</span></td><td><span class="param-type">int</span></td><td></td><td class="param-desc">Default: 20, max: 100</td></tr>
+              <tr><td><span class="param-name">sort</span></td><td><span class="param-type">string</span></td><td></td><td class="param-desc">Ej: updatedAt,desc</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="body-section">
+          <div class="body-label">Response 200</div>
+          <div class="code-block">{
+  <span class="key">"content"</span>: [ ... ],
+  <span class="key">"totalElements"</span>: <span class="num">512</span>,
+  <span class="key">"totalPages"</span>: <span class="num">26</span>,
+  <span class="key">"page"</span>: <span class="num">0</span>,
+  <span class="key">"size"</span>: <span class="num">20</span>
+}</div>
+        </div>
+        <button class="try-btn" onclick="mockResponse(this, 'leads')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Probar endpoint
+        </button>
+        <div class="response-mock" id="mock-leads">
+          <div class="response-header"><span class="status-200">200 OK</span><span style="font-size:12px;color:var(--muted)">application/json · 67ms</span></div>
+          <div class="code-block">{
+  <span class="key">"content"</span>: [
+    {
+      <span class="key">"id"</span>: <span class="num">1</span>, <span class="key">"nombre"</span>: <span class="str">"Ana Martínez López"</span>,
+      <span class="key">"carrera"</span>: <span class="str">"Ing. en Software"</span>,
+      <span class="key">"seguimiento"</span>: <span class="str">"Inscrita"</span>,
+      <span class="key">"promotor"</span>: <span class="str">"Carlos Ruiz"</span>,
+      <span class="key">"canal"</span>: <span class="str">"Facebook Ads"</span>,
+      <span class="key">"updatedAt"</span>: <span class="str">"2025-06-10T10:00:00Z"</span>
+    }
+  ],
+  <span class="key">"totalElements"</span>: <span class="num">512</span>,
+  <span class="key">"totalPages"</span>: <span class="num">26</span>,
+  <span class="key">"page"</span>: <span class="num">0</span>, <span class="key">"size"</span>: <span class="num">20</span>
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GET /reports/promotores -->
+    <div class="endpoint">
+      <div class="endpoint-header" onclick="toggle(this)">
+        <span class="method-badge method-get">GET</span>
+        <span class="endpoint-path">/api/v1/reports/promotores</span>
+        <span class="endpoint-summary">Ranking y métricas por promotor</span>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="endpoint-body">
+        <button class="try-btn" onclick="mockResponse(this, 'promotores')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Probar endpoint
+        </button>
+        <div class="response-mock" id="mock-promotores">
+          <div class="response-header"><span class="status-200">200 OK</span><span style="font-size:12px;color:var(--muted)">application/json · 44ms</span></div>
+          <div class="code-block">{
+  <span class="key">"promotores"</span>: [
+    { <span class="key">"nombre"</span>: <span class="str">"Carlos Ruiz"</span>,  <span class="key">"leads"</span>: <span class="num">145</span>, <span class="key">"inscritos"</span>: <span class="num">28</span>, <span class="key">"conversion"</span>: <span class="num">19.3</span>, <span class="key">"rank"</span>: <span class="num">1</span> },
+    { <span class="key">"nombre"</span>: <span class="str">"María Pérez"</span>,  <span class="key">"leads"</span>: <span class="num">132</span>, <span class="key">"inscritos"</span>: <span class="num">24</span>, <span class="key">"conversion"</span>: <span class="num">18.2</span>, <span class="key">"rank"</span>: <span class="num">2</span> },
+    { <span class="key">"nombre"</span>: <span class="str">"Juan López"</span>,   <span class="key">"leads"</span>: <span class="num">98</span>,  <span class="key">"inscritos"</span>: <span class="num">15</span>, <span class="key">"conversion"</span>: <span class="num">15.3</span>, <span class="key">"rank"</span>: <span class="num">3</span> }
+  ]
+}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPORTACIÓN -->
+  <div class="endpoint-group" id="export">
+    <h2 class="group-title">📁 Exportación</h2>
+
+    <div class="endpoint">
+      <div class="endpoint-header" onclick="toggle(this)">
+        <span class="method-badge method-get">GET</span>
+        <span class="endpoint-path">/api/v1/export/csv</span>
+        <span class="endpoint-summary">Exportar reporte como archivo CSV</span>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="endpoint-body">
+        <div class="body-section">
+          <div class="body-label">Query Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Nombre</th><th>Tipo</th><th>Req.</th><th>Descripción</th></tr></thead>
+            <tbody>
+              <tr><td><span class="param-name">tipo</span></td><td><span class="param-type">string</span></td><td><span class="param-required">*</span></td><td class="param-desc">leads | inscripciones | promotores</td></tr>
+              <tr><td><span class="param-name">organizacionId</span></td><td><span class="param-type">long</span></td><td><span class="param-required">*</span></td><td class="param-desc">ID de organización</td></tr>
+              <tr><td><span class="param-name">fechaInicio</span></td><td><span class="param-type">date</span></td><td></td><td class="param-desc">Filtro de fecha inicio</td></tr>
+              <tr><td><span class="param-name">fechaFin</span></td><td><span class="param-type">date</span></td><td></td><td class="param-desc">Filtro de fecha fin</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="body-section">
+          <div class="body-label">Response Headers</div>
+          <div class="code-block">Content-Type: text/csv; charset=UTF-8
+Content-Disposition: attachment; filename="reporte-leads-2025-06-26.csv"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="endpoint">
+      <div class="endpoint-header" onclick="toggle(this)">
+        <span class="method-badge method-get">GET</span>
+        <span class="endpoint-path">/api/v1/export/pdf</span>
+        <span class="endpoint-summary">Exportar reporte como PDF con iText</span>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="endpoint-body">
+        <div class="body-section">
+          <div class="body-label">Response Headers</div>
+          <div class="code-block">Content-Type: application/pdf
+Content-Disposition: attachment; filename="reporte-2025-06-26.pdf"</div>
+        </div>
+        <div class="body-section">
+          <div class="body-label">Implementación</div>
+          <div class="code-block"><span class="key">// ReportPdfService.java</span>
+Document doc = <span class="bool">new</span> Document();
+PdfWriter.getInstance(doc, outputStream);
+doc.open();
+doc.add(<span class="bool">new</span> Paragraph(<span class="str">"Reporte de Leads — "</span> + ciclo));
+<span class="key">// Tabla dinámica con datos de JPA Specification</span>
+PdfPTable table = buildTable(leads);
+doc.add(table);
+doc.close();</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH -->
+  <div class="endpoint-group" id="auth">
+    <h2 class="group-title">🔐 Autenticación</h2>
+
+    <div class="endpoint">
+      <div class="endpoint-header" onclick="toggle(this)">
+        <span class="method-badge method-post">POST</span>
+        <span class="endpoint-path">/api/v1/auth/login</span>
+        <span class="endpoint-summary">Obtener access + refresh token</span>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="endpoint-body">
+        <div class="body-section">
+          <div class="body-label">Request Body</div>
+          <div class="code-block">{
+  <span class="key">"email"</span>: <span class="str">"usuario@org.mx"</span>,
+  <span class="key">"password"</span>: <span class="str">"••••••••"</span>
+}</div>
+        </div>
+        <button class="try-btn" onclick="mockResponse(this, 'login')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Probar endpoint
+        </button>
+        <div class="response-mock" id="mock-login">
+          <div class="response-header"><span class="status-200">200 OK</span><span style="font-size:12px;color:var(--muted)">application/json · 120ms</span></div>
+          <div class="code-block">{
+  <span class="key">"accessToken"</span>:  <span class="str">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>,
+  <span class="key">"refreshToken"</span>: <span class="str">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>,
+  <span class="key">"expiresIn"</span>: <span class="num">3600</span>,
+  <span class="key">"tokenType"</span>: <span class="str">"Bearer"</span>,
+  <span class="key">"usuario"</span>: {
+    <span class="key">"id"</span>: <span class="num">1</span>,
+    <span class="key">"nombre"</span>: <span class="str">"Admin Demo"</span>,
+    <span class="key">"rol"</span>: <span class="str">"ADMIN"</span>,
+    <span class="key">"organizacionId"</span>: <span class="num">10</span>
+  }
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="endpoint">
+      <div class="endpoint-header" onclick="toggle(this)">
+        <span class="method-badge method-post">POST</span>
+        <span class="endpoint-path">/api/v1/auth/refresh</span>
+        <span class="endpoint-summary">Renovar access token con refresh token</span>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="endpoint-body">
+        <div class="body-section">
+          <div class="body-label">Request Body</div>
+          <div class="code-block">{ <span class="key">"refreshToken"</span>: <span class="str">"eyJhbGci..."</span> }</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="endpoint">
+      <div class="endpoint-header" onclick="toggle(this)">
+        <span class="method-badge method-delete">DEL</span>
+        <span class="endpoint-path">/api/v1/auth/logout</span>
+        <span class="endpoint-summary">Invalidar token (blacklist)</span>
+        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="endpoint-body">
+        <div class="body-section">
+          <div class="body-label">Headers requeridos</div>
+          <div class="code-block">Authorization: Bearer &lt;access_token&gt;</div>
+        </div>
+        <button class="try-btn" onclick="mockResponse(this, 'logout')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Probar endpoint
+        </button>
+        <div class="response-mock" id="mock-logout">
+          <div class="response-header"><span class="status-200">200 OK</span><span style="font-size:12px;color:var(--muted)">application/json · 28ms</span></div>
+          <div class="code-block">{ <span class="key">"message"</span>: <span class="str">"Sesión cerrada correctamente"</span> }</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="deploy-box">
+    <div class="deploy-title">🚀 Deployment</div>
+    <div class="deploy-url">https://reports-api.railway.app/api/v1</div>
+    <div class="deploy-meta">Desplegado en Railway · MySQL 8 en PlanetScale · CI/CD con GitHub Actions</div>
+  </div>
+</main>
+
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling
+  const chevron = header.querySelector('.chevron')
+  const isOpen = body.classList.contains('open')
+  body.classList.toggle('open', !isOpen)
+  chevron.classList.toggle('open', !isOpen)
+}
+
+function mockResponse(btn, id) {
+  const mock = document.getElementById('mock-' + id)
+  if (!mock) return
+  mock.classList.toggle('visible')
+  btn.textContent = mock.classList.contains('visible') ? '▼ Ocultar respuesta' : '▶ Probar endpoint'
+}
+
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+}
+</script>
+</body>
+</html>

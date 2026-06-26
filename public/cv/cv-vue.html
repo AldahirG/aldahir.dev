@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aldahir Gomez Garcia — CV Vue 3</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #41B883;
+    --green-dark: #2d8a62;
+    --green-light: #6fcba0;
+    --dark: #16181D;
+    --mid: #3D424B;
+    --soft: #6B7280;
+    --line: #E3E6EA;
+    --bg: #F4FAF7;
+    --white: #FFFFFF;
+    --accent-bg: #EDFAF3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.10);
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--dark);
+    color: var(--white);
+    padding: 44px 52px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    border: 40px solid var(--green);
+    opacity: 0.2;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: 80px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    border: 24px solid var(--green-light);
+    opacity: 0.12;
+  }
+  .header-title {
+    color: var(--green-light);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .header-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .header-subtitle {
+    color: rgba(255,255,255,0.55);
+    font-size: 12px;
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: rgba(255,255,255,0.78);
+    font-size: 12px;
+    text-decoration: none;
+  }
+  .contact-item svg { opacity: 0.7; flex-shrink: 0; }
+  .contact-item:hover { color: var(--green-light); }
+
+  /* SUMMARY */
+  .summary-band {
+    background: var(--accent-bg);
+    border-left: 4px solid var(--green);
+    padding: 18px 52px;
+    font-size: 12.5px;
+    color: var(--mid);
+    line-height: 1.75;
+  }
+  .summary-band strong { color: var(--dark); font-weight: 600; }
+
+  /* IMPACT BAND */
+  .impact-band {
+    background: var(--dark);
+    padding: 20px 52px;
+    display: flex;
+    gap: 0;
+  }
+  .impact-item {
+    flex: 1;
+    text-align: center;
+    padding: 0 16px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .impact-item:last-child { border-right: none; }
+  .impact-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--green-light);
+    line-height: 1.1;
+    margin-bottom: 3px;
+  }
+  .impact-label {
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+  }
+
+  /* BODY GRID */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+  }
+
+  .main-col {
+    padding: 36px 40px 40px 52px;
+    border-right: 1px solid var(--line);
+  }
+
+  .side-col {
+    padding: 36px 32px 40px;
+    background: #F9FBF9;
+  }
+
+  .section { margin-bottom: 32px; }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--dark);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* PROJECT */
+  .project { margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+  .project:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .project-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--dark);
+  }
+  .project-status {
+    font-size: 10.5px;
+    background: var(--green);
+    color: white;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .project-role {
+    font-size: 11.5px;
+    color: var(--green-dark);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .project-desc {
+    font-size: 12px;
+    color: var(--mid);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .project-desc strong { color: var(--dark); font-weight: 600; }
+
+  .impact-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 8px;
+  }
+  .impact-list li {
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 4px;
+    color: var(--mid);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .impact-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 7px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .impact-list li strong { color: var(--dark); font-weight: 600; }
+
+  .tech-tag {
+    display: inline-block;
+    background: var(--accent-bg);
+    border: 1px solid #A8DFC5;
+    color: var(--green-dark);
+    font-size: 10.5px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin: 2px 2px 2px 0;
+  }
+  .tech-tags { margin-top: 6px; }
+
+  /* JOB ENTRY */
+  .job { margin-bottom: 22px; }
+  .job:last-child { margin-bottom: 0; }
+  .job-title { font-weight: 600; font-size: 13.5px; color: var(--dark); }
+  .job-company { font-size: 12px; color: var(--green-dark); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .job-meta { font-size: 11px; color: var(--soft); margin-bottom: 8px; }
+  .job-meta span { margin-right: 12px; }
+  .job ul { padding-left: 0; list-style: none; }
+  .job ul li {
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 5px;
+    color: var(--mid);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  .job ul li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 7px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .job ul li strong { color: var(--dark); font-weight: 600; }
+
+  /* SIDE */
+  .side-section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 13.5px;
+    color: var(--dark);
+    margin-bottom: 12px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .side-section { margin-bottom: 24px; }
+  .side-section:last-child { margin-bottom: 0; }
+
+  .skill-row { margin-bottom: 8px; }
+  .skill-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--soft);
+    margin-bottom: 4px;
+  }
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .skill-chip {
+    background: var(--white);
+    border: 1px solid var(--line);
+    color: var(--mid);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .skill-chip.highlight {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+    font-weight: 500;
+  }
+
+  .comp-list { list-style: none; }
+  .comp-list li {
+    font-size: 12px;
+    color: var(--mid);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .comp-list li:last-child { border-bottom: none; }
+  .comp-list li::before {
+    content: '';
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+
+  .edu-item { margin-bottom: 14px; }
+  .edu-item:last-child { margin-bottom: 0; }
+  .edu-degree { font-weight: 600; font-size: 12px; color: var(--dark); line-height: 1.4; }
+  .edu-school { font-size: 11.5px; color: var(--green-dark); font-weight: 500; }
+  .edu-period { font-size: 11px; color: var(--soft); }
+
+  .lang-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .lang-name { font-size: 12px; font-weight: 500; color: var(--dark); }
+  .lang-level { font-size: 11px; background: var(--green); color: white; padding: 1px 8px; border-radius: 20px; font-weight: 500; }
+
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; max-width: 100%; }
+    @page { margin: 0; size: A4; }
+  }
+
+  @media (max-width: 640px) {
+    .body-grid { grid-template-columns: 1fr; }
+    .main-col { padding: 28px 24px; border-right: none; border-bottom: 1px solid var(--line); }
+    .side-col { padding: 28px 24px; }
+    .header { padding: 32px 24px; }
+    .summary-band, .impact-band { padding-left: 24px; padding-right: 24px; }
+    .impact-band { flex-wrap: wrap; }
+    .impact-item { min-width: 45%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-title">Desarrollador Fullstack · Vue 3 & TypeScript</div>
+    <div class="header-name">Aldahir Gomez Garcia</div>
+    <div class="header-subtitle">Vue 3 · Pinia · TypeScript · NestJS · Sistemas en Producción</div>
+    <div class="contact-row">
+      <a class="contact-item" href="mailto:aldahir.gomez.g.98@gmail.com">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        aldahir.gomez.g.98@gmail.com
+      </a>
+      <a class="contact-item" href="tel:7773019146">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.05 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16z"/></svg>
+        777 301 9146
+      </a>
+      <a class="contact-item" href="https://www.linkedin.com/in/aldahir-gomez-garcia-63463928b" target="_blank">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin.com/in/aldahir-gomez-garcia
+      </a>
+      <a class="contact-item" href="https://github.com/AldahirG" target="_blank">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        github.com/AldahirG
+      </a>
+      <span class="contact-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Emiliano Zapata, Morelos
+      </span>
+    </div>
+  </div>
+
+  <!-- IMPACT BAND -->
+  <div class="impact-band">
+    <div class="impact-item">
+      <div class="impact-number">3</div>
+      <div class="impact-label">Sistemas Vue 3<br>en producción</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-number">+500</div>
+      <div class="impact-label">Prospectos<br>gestionados/mes</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-number">60%</div>
+      <div class="impact-label">Reducción de<br>gestión manual</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-number">5+</div>
+      <div class="impact-label">Áreas institucionales<br>atendidas</div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-band">
+    Ingeniero en Software con <strong>+3 años de experiencia profesional</strong> y <strong>3 sistemas Vue 3 actualmente en producción</strong> dentro de entornos institucionales reales. He construido plataformas completas con <strong>Vue 3, Pinia, TypeScript y Vite</strong> — desde arquitectura de componentes hasta integración con APIs REST (NestJS), manejo de estado global, rutas protegidas, modales, tablas dinámicas y flujos de aprobación multi-etapa. Mis sistemas son utilizados diariamente por equipos operativos y han reducido tiempos de gestión manual en <strong>hasta un 60%</strong>. Inglés B2 funcional en entornos de trabajo.
+  </div>
+
+  <!-- BODY -->
+  <div class="body-grid">
+
+    <!-- MAIN -->
+    <div class="main-col">
+
+      <!-- PROYECTOS VUE EN PRODUCCIÓN -->
+      <div class="section">
+        <div class="section-title"><span class="dot"></span>Sistemas Vue 3 en Producción</div>
+
+        <!-- SICEL -->
+        <div class="project">
+          <div class="project-header">
+            <div class="project-name">SICEL CRM — Sistema Integral de Control y Eficiencia en Leads</div>
+            <span class="project-status">● En producción</span>
+          </div>
+          <div class="project-role">Desarrollador Fullstack · Universidad Internacional UNINTER · Sep 2023 – Actual</div>
+          <div class="project-desc">
+            CRM institucional construido con <strong>Vue 3 + TypeScript + Pinia</strong> para centralizar el seguimiento de prospectos estudiantiles. Arquitectura modular con vistas para administradores y promotores, filtros avanzados, reportes exportables y <strong>dashboard con métricas en tiempo real</strong> alimentadas por una API NestJS propia.
+          </div>
+          <ul class="impact-list">
+            <li>Centraliza el seguimiento de <strong>+500 prospectos estudiantiles mensuales</strong> sustituyendo hojas de cálculo manuales.</li>
+            <li>Implementé <strong>control de roles</strong> (admin / promotor) con rutas y vistas protegidas por guard de Vue Router.</li>
+            <li>Construí módulo de <strong>generación de PDF</strong> con datos dinámicos para solicitudes de inscripción.</li>
+            <li>Redujo tiempos de gestión y reporte en aproximadamente <strong>60%</strong> para el área de Promoción Nacional.</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tech-tag">Vue 3</span><span class="tech-tag">TypeScript</span><span class="tech-tag">Pinia</span><span class="tech-tag">Vue Router</span><span class="tech-tag">Tailwind CSS</span><span class="tech-tag">Vite</span><span class="tech-tag">NestJS</span><span class="tech-tag">MySQL</span><span class="tech-tag">Axios</span>
+          </div>
+        </div>
+
+        <!-- SISA -->
+        <div class="project">
+          <div class="project-header">
+            <div class="project-name">SISA — Sistema Integral de Seguimiento Académico</div>
+            <span class="project-status">● En producción</span>
+          </div>
+          <div class="project-role">Desarrollador Fullstack · Universidad Internacional UNINTER · 2024 – Actual</div>
+          <div class="project-desc">
+            Plataforma de gestión de <strong>prácticas profesionales</strong> con flujo completo: postulación de alumnos, evaluación de empresas, asignación y seguimiento académico. Construida con <strong>Vue 3 + PrimeVue 4</strong>, con DataTable paginado, filtros por periodo/empresa, módulo de control académico y panel diferenciado por rol (admin / alumno).
+          </div>
+          <ul class="impact-list">
+            <li>Automatiza el flujo completo de prácticas profesionales: <strong>postulación → aceptación → asignación → seguimiento</strong>.</li>
+            <li>Implementé <strong>asignación automática</strong> de empresas a alumnos sin postulación activa al cerrar el periodo.</li>
+            <li>Sistema de <strong>entregables por etapas</strong> con validación de documentos y estado de avance por alumno.</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tech-tag">Vue 3</span><span class="tech-tag">TypeScript</span><span class="tech-tag">PrimeVue 4</span><span class="tech-tag">Pinia</span><span class="tech-tag">NestJS</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Axios</span>
+          </div>
+        </div>
+
+        <!-- SISI -->
+        <div class="project">
+          <div class="project-header">
+            <div class="project-name">SISI — Sistema de Solicitudes Internas</div>
+            <span class="project-status">● En producción</span>
+          </div>
+          <div class="project-role">Desarrollador Fullstack · Universidad Internacional UNINTER · 2024</div>
+          <div class="project-desc">
+            Herramienta tipo <strong>Asana/Jira</strong> para gestión de requisiciones de materiales con flujo de aprobación multi-etapa, tablero Kanban, notificaciones por estado y seguimiento en tiempo real. Adoptada por <strong>5+ áreas</strong> de la universidad.
+          </div>
+          <ul class="impact-list">
+            <li>Flujo de aprobación configurable: <strong>Solicitante → Jefe inmediato → Administración → Compras</strong>.</li>
+            <li>Dashboard con métricas de solicitudes por área, estado y periodo.</li>
+            <li>Eliminó el uso de correo electrónico para gestión interna de requisiciones.</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tech-tag">Vue 3</span><span class="tech-tag">TypeScript</span><span class="tech-tag">Pinia</span><span class="tech-tag">NestJS</span><span class="tech-tag">MySQL</span><span class="tech-tag">Vite</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCIA -->
+      <div class="section">
+        <div class="section-title"><span class="dot"></span>Experiencia Laboral</div>
+
+        <div class="job">
+          <div class="job-title">Desarrollador Web Fullstack</div>
+          <div class="job-company">Universidad Internacional UNINTER</div>
+          <div class="job-meta">
+            <span>📅 Sep 2023 – Actual</span>
+            <span>📍 Cuernavaca, Morelos</span>
+          </div>
+          <ul>
+            <li>Diseñé la arquitectura y desarrollé <strong>3 sistemas institucionales en producción</strong> con Vue 3 como framework principal.</li>
+            <li>Definí <strong>estándares de componentes reutilizables</strong> y estructura de carpetas escalable para proyectos Vue.</li>
+            <li>Coordiné técnicamente <strong>3+ proyectos simultáneos</strong> alineando equipos de diseño, operaciones y tecnología.</li>
+            <li>Implementé <strong>CI/CD con GitHub Actions</strong> para automatizar build, pruebas y despliegue.</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tech-tag">Vue 3</span><span class="tech-tag">TypeScript</span><span class="tech-tag">Pinia</span><span class="tech-tag">NestJS</span><span class="tech-tag">Tailwind</span><span class="tech-tag">GitHub Actions</span>
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="job-title">Desarrollador Front/Back-end</div>
+          <div class="job-company">AccionTI</div>
+          <div class="job-meta">
+            <span>📅 May 2022 – Ene 2023</span>
+            <span>📍 Monterrey, Nuevo León</span>
+          </div>
+          <ul>
+            <li>Desarrollé y mantuve <strong>+8 aplicaciones web progresivas (PWA)</strong> para clientes de la empresa.</li>
+            <li>Automaticé la logística de procesos internos, reduciendo flujos manuales en <strong>~50%</strong>.</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tech-tag">React Native</span><span class="tech-tag">Node.js</span><span class="tech-tag">TypeScript</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDE -->
+    <div class="side-col">
+
+      <!-- FORMACIÓN -->
+      <div class="side-section">
+        <div class="side-section-title"><span class="dot" style="width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;"></span>Formación</div>
+        <div class="edu-item">
+          <div class="edu-degree">Ing. en Desarrollo y Gestión de Software</div>
+          <div class="edu-school">Univ. Tecnológica Emiliano Zapata</div>
+          <div class="edu-period">May 2022 – Abr 2025 · Emiliano Zapata, Mor.</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-degree">TSU en Desarrollo de Software Multiplataforma</div>
+          <div class="edu-school">Univ. Tecnológica Emiliano Zapata</div>
+          <div class="edu-period">Jul 2020 – Abr 2022 · Emiliano Zapata, Mor.</div>
+        </div>
+      </div>
+
+      <!-- TECNOLOGÍAS -->
+      <div class="side-section">
+        <div class="side-section-title"><span class="dot" style="width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;"></span>Tecnologías</div>
+        <div class="skill-row">
+          <div class="skill-label">Vue Ecosystem</div>
+          <div class="skill-chips">
+            <span class="skill-chip highlight">Vue 3</span>
+            <span class="skill-chip highlight">Pinia</span>
+            <span class="skill-chip highlight">Vue Router</span>
+            <span class="skill-chip highlight">Vite</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Lenguajes</div>
+          <div class="skill-chips">
+            <span class="skill-chip highlight">TypeScript</span>
+            <span class="skill-chip">JavaScript</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">UI / Estilos</div>
+          <div class="skill-chips">
+            <span class="skill-chip">Tailwind CSS</span>
+            <span class="skill-chip">PrimeVue 4</span>
+            <span class="skill-chip">CSS3</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Backend / API</div>
+          <div class="skill-chips">
+            <span class="skill-chip">NestJS</span>
+            <span class="skill-chip">Node.js</span>
+            <span class="skill-chip">Axios</span>
+            <span class="skill-chip">REST APIs</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Bases de datos</div>
+          <div class="skill-chips">
+            <span class="skill-chip">MySQL</span>
+            <span class="skill-chip">PostgreSQL</span>
+            <span class="skill-chip">MongoDB</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Herramientas</div>
+          <div class="skill-chips">
+            <span class="skill-chip">Git</span>
+            <span class="skill-chip">GitHub Actions</span>
+            <span class="skill-chip">Docker</span>
+            <span class="skill-chip">Postman</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Desarrollo con IA</div>
+          <div class="skill-chips">
+            <span class="skill-chip">GitHub Copilot</span>
+            <span class="skill-chip">Claude</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FUNDAMENTOS VUE -->
+      <div class="side-section">
+        <div class="side-section-title"><span class="dot" style="width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;"></span>Fundamentos Vue</div>
+        <ul class="comp-list">
+          <li>Composition API + script setup</li>
+          <li>Estado global con Pinia (stores, actions)</li>
+          <li>Rutas protegidas con Vue Router guards</li>
+          <li>Componentes reutilizables y slots</li>
+          <li>Consumo de APIs REST con Axios</li>
+          <li>Manejo de formularios y validaciones</li>
+          <li>Integración con librerías UI (PrimeVue)</li>
+        </ul>
+      </div>
+
+      <!-- COMPETENCIAS -->
+      <div class="side-section">
+        <div class="side-section-title"><span class="dot" style="width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;"></span>Competencias</div>
+        <ul class="comp-list">
+          <li>Metodologías ágiles (Scrum/Kanban)</li>
+          <li>Sistemas en producción con usuarios reales</li>
+          <li>Trabajo en equipo multidisciplinario</li>
+          <li>Adaptación rápida a nuevos stacks</li>
+        </ul>
+      </div>
+
+      <!-- IDIOMAS -->
+      <div class="side-section">
+        <div class="side-section-title"><span class="dot" style="width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;"></span>Idiomas</div>
+        <div class="lang-item">
+          <span class="lang-name">Español</span>
+          <span class="lang-level">Nativo</span>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name">Inglés</span>
+          <span class="lang-level">B2</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

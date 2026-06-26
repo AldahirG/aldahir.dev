@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aldahir Gomez Garcia — CV Java</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C0392B;
+    --red-light: #E74C3C;
+    --dark: #1A1A1A;
+    --mid: #3D3D3D;
+    --soft: #6B6B6B;
+    --line: #E0DEDA;
+    --bg: #F8F6F2;
+    --white: #FFFFFF;
+    --accent-bg: #FDF1EF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.10);
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--dark);
+    color: var(--white);
+    padding: 44px 52px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    border: 40px solid var(--red);
+    opacity: 0.18;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: 80px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    border: 24px solid var(--red-light);
+    opacity: 0.12;
+  }
+  .header-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+  .header-title {
+    color: var(--red-light);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .header-subtitle {
+    color: rgba(255,255,255,0.55);
+    font-size: 12px;
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: rgba(255,255,255,0.78);
+    font-size: 12px;
+    text-decoration: none;
+  }
+  .contact-item svg { opacity: 0.7; flex-shrink: 0; }
+  .contact-item:hover { color: var(--red-light); }
+
+  /* SUMMARY BAND */
+  .summary-band {
+    background: var(--accent-bg);
+    border-left: 4px solid var(--red);
+    padding: 18px 52px;
+    font-size: 12.5px;
+    color: var(--mid);
+    line-height: 1.75;
+  }
+  .summary-band strong { color: var(--dark); font-weight: 600; }
+
+  /* BODY GRID */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+  }
+
+  /* MAIN COLUMN */
+  .main-col {
+    padding: 36px 40px 40px 52px;
+    border-right: 1px solid var(--line);
+  }
+
+  /* SIDE COLUMN */
+  .side-col {
+    padding: 36px 32px 40px;
+    background: #FAFAF8;
+  }
+
+  /* SECTION */
+  .section { margin-bottom: 32px; }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--dark);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .dot {
+    width: 8px; height: 8px;
+    background: var(--red);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* JOB ENTRY */
+  .job { margin-bottom: 22px; }
+  .job:last-child { margin-bottom: 0; }
+  .job-header { margin-bottom: 4px; }
+  .job-title {
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--dark);
+  }
+  .job-company {
+    font-size: 12px;
+    color: var(--red);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .job-meta {
+    font-size: 11px;
+    color: var(--soft);
+    margin-bottom: 8px;
+  }
+  .job-meta span { margin-right: 12px; }
+  .job ul {
+    padding-left: 0;
+    list-style: none;
+  }
+  .job ul li {
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 5px;
+    color: var(--mid);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  .job ul li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 7px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--red);
+  }
+  .job ul li strong { color: var(--dark); font-weight: 600; }
+
+  .tech-tag {
+    display: inline-block;
+    background: var(--accent-bg);
+    border: 1px solid #E8C5C0;
+    color: var(--red);
+    font-size: 10.5px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin: 2px 2px 2px 0;
+  }
+  .tech-tags { margin-top: 8px; }
+
+  /* PROJECT */
+  .project { margin-bottom: 16px; }
+  .project:last-child { margin-bottom: 0; }
+  .project-name {
+    font-weight: 600;
+    font-size: 12.5px;
+    color: var(--dark);
+    margin-bottom: 2px;
+  }
+  .project-period {
+    font-size: 11px;
+    color: var(--soft);
+    margin-bottom: 4px;
+  }
+  .project-desc {
+    font-size: 12px;
+    color: var(--mid);
+    line-height: 1.55;
+  }
+  .project-desc strong { color: var(--dark); font-weight: 600; }
+
+  /* PROJECT GROUP NOTE */
+  .group-note {
+    font-size: 11.5px;
+    color: var(--soft);
+    font-style: italic;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  /* SIDE SECTION TITLE */
+  .side-section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 13.5px;
+    color: var(--dark);
+    margin-bottom: 12px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .side-section { margin-bottom: 24px; }
+  .side-section:last-child { margin-bottom: 0; }
+
+  /* SKILLS LIST */
+  .skill-row {
+    margin-bottom: 8px;
+  }
+  .skill-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--soft);
+    margin-bottom: 4px;
+  }
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .skill-chip {
+    background: var(--white);
+    border: 1px solid var(--line);
+    color: var(--mid);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .skill-chip.highlight {
+    background: var(--red);
+    border-color: var(--red);
+    color: white;
+    font-weight: 500;
+  }
+
+  /* COMPETENCIAS */
+  .comp-list { list-style: none; }
+  .comp-list li {
+    font-size: 12px;
+    color: var(--mid);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .comp-list li:last-child { border-bottom: none; }
+  .comp-list li::before {
+    content: '';
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--red);
+    flex-shrink: 0;
+  }
+
+  /* EDU */
+  .edu-item { margin-bottom: 14px; }
+  .edu-item:last-child { margin-bottom: 0; }
+  .edu-degree {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--dark);
+    line-height: 1.4;
+  }
+  .edu-school {
+    font-size: 11.5px;
+    color: var(--red);
+    font-weight: 500;
+  }
+  .edu-period {
+    font-size: 11px;
+    color: var(--soft);
+  }
+
+  /* IDIOMA */
+  .lang-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .lang-name { font-size: 12px; font-weight: 500; color: var(--dark); }
+  .lang-level {
+    font-size: 11px;
+    background: var(--red);
+    color: white;
+    padding: 1px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; max-width: 100%; }
+    @page { margin: 0; size: A4; }
+  }
+
+  @media (max-width: 640px) {
+    .body-grid { grid-template-columns: 1fr; }
+    .main-col { padding: 28px 24px; border-right: none; border-bottom: 1px solid var(--line); }
+    .side-col { padding: 28px 24px; }
+    .header { padding: 32px 24px; }
+    .summary-band { padding: 16px 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-title">Desarrollador Fullstack · Java & Spring Boot</div>
+    <div class="header-name">Aldahir Gomez Garcia</div>
+    <div class="header-subtitle">Programación Orientada a Objetos · Arquitectura en Capas · APIs REST</div>
+    <div class="contact-row">
+      <a class="contact-item" href="mailto:aldahir.gomez.g.98@gmail.com">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        aldahir.gomez.g.98@gmail.com
+      </a>
+      <a class="contact-item" href="tel:7773019146">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.05 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16z"/></svg>
+        777 301 9146
+      </a>
+      <a class="contact-item" href="https://www.linkedin.com/in/aldahir-gomez-garcia-63463928b" target="_blank">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin.com/in/aldahir-gomez-garcia
+      </a>
+      <a class="contact-item" href="https://github.com/AldahirG" target="_blank">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07_0_0_0_19.91_1S18.73.65_16_2.48a13.38_13.38_0_0_0_-7_0C6.27.65_5.09_1_5.09_1A5.07_5.07_0_0_0_5_4.77a5.44_5.44_0_0_0_-1.5_3.78c0_5.42_3.3_6.61_6.44_7A3.37_3.37_0_0_0_9_18.13V22"/></svg>
+        github.com/AldahirG
+      </a>
+      <span class="contact-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Emiliano Zapata, Morelos
+      </span>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-band">
+    Ingeniero en Software con <strong>+3 años de experiencia profesional</strong> en desarrollo fullstack y base sólida en <strong>Java y Programación Orientada a Objetos</strong> aplicada mediante <strong>Spring Boot</strong>. He construido APIs REST con arquitectura en capas (Controller–Service–Repository), modelado de entidades con JPA/Hibernate, relaciones entre tablas, DTOs, validaciones y manejo centralizado de excepciones. Complemento esta base con experiencia laboral real en arquitectura de sistemas, bases de datos relacionales (MySQL, PostgreSQL) y metodologías ágiles. Inglés B2 funcional en entornos de trabajo.
+  </div>
+
+  <!-- BODY -->
+  <div class="body-grid">
+
+    <!-- MAIN -->
+    <div class="main-col">
+
+      <!-- PROYECTOS JAVA -->
+      <div class="section">
+        <div class="section-title"><span class="dot"></span>Proyectos Backend en Java & Spring Boot</div>
+        <div class="group-note">
+          Serie de 14 proyectos progresivos desarrollados de forma autodidacta para consolidar fundamentos de Java backend, desde CRUD básico hasta relaciones complejas entre entidades — siguiendo buenas prácticas de arquitectura en capas.
+        </div>
+
+        <div class="project">
+          <div class="project-name">Sistema Bibliotecario &nbsp;<a href="https://github.com/AldahirG" target="_blank" style="font-size:11px;color:var(--red);font-weight:500;text-decoration:none;">↗ GitHub</a></div>
+          <div class="project-desc">
+            API REST para gestión de préstamos de libros con <strong>relaciones @ManyToOne / @OneToMany</strong> entre entidades Book, Member y Loan. Implementé <strong>lazy loading</strong> para optimizar consultas, cálculo automático de fechas límite vía <strong>@PrePersist</strong>, control de estado con enums (<strong>EnumType.STRING</strong>) y validaciones con Jakarta Validation (email único, formato de teléfono).
+          </div>
+          <div class="tech-tags" style="margin-top:6px;">
+            <span class="tech-tag">Java</span><span class="tech-tag">Spring Boot</span><span class="tech-tag">JPA/Hibernate</span><span class="tech-tag">PostgreSQL</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-name">Sistema Escolar — Gestión de Inscripciones &nbsp;<a href="https://github.com/AldahirG" target="_blank" style="font-size:11px;color:var(--red);font-weight:500;text-decoration:none;">↗ GitHub</a></div>
+          <div class="project-desc">
+            API para administración de alumnos, cursos e inscripciones con <strong>relación N:M resuelta mediante entidad intermedia</strong> (Enrollment), control de estatus de inscripción y separación clara de responsabilidades por capa.
+          </div>
+          <div class="tech-tags" style="margin-top:6px;">
+            <span class="tech-tag">Java 21</span><span class="tech-tag">Spring Boot</span><span class="tech-tag">Maven</span><span class="tech-tag">PostgreSQL</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-name">Sistema de Facturación &nbsp;<a href="https://github.com/AldahirG" target="_blank" style="font-size:11px;color:var(--red);font-weight:500;text-decoration:none;">↗ GitHub</a></div>
+          <div class="project-desc">
+            API para generación de facturas con relación entre clientes, productos y detalle de factura, manejo de <strong>DTOs de entrada/salida</strong> para desacoplar la entidad de la respuesta de la API, y excepciones de negocio personalizadas (stock insuficiente, folio duplicado).
+          </div>
+          <div class="tech-tags" style="margin-top:6px;">
+            <span class="tech-tag">Java</span><span class="tech-tag">Spring Boot</span><span class="tech-tag">DTOs</span><span class="tech-tag">Exception Handling</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-name">Plataforma de Cursos Online &nbsp;<a href="https://github.com/AldahirG" target="_blank" style="font-size:11px;color:var(--red);font-weight:500;text-decoration:none;">↗ GitHub</a></div>
+          <div class="project-desc">
+            Backend para gestión de cursos, instructores y alumnos inscritos, aplicando <strong>mapeo DTO ↔ entidad</strong> con clases mapper dedicadas y separación de capas Controller–Service–Repository.
+          </div>
+          <div class="tech-tags" style="margin-top:6px;">
+            <span class="tech-tag">Java</span><span class="tech-tag">Spring Boot</span><span class="tech-tag">JPA</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-name">Catálogo de Libros, Tienda Simple, Reservas de Citas y otros (10 proyectos adicionales) &nbsp;<a href="https://github.com/AldahirG" target="_blank" style="font-size:11px;color:var(--red);font-weight:500;text-decoration:none;">↗ GitHub</a></div>
+          <div class="project-desc">
+            Serie complementaria de APIs REST (gestor de notas, to-do list, gestor de gastos, inventario, registro de actividades físicas, sistema de contactos, blog personal, entre otros) practicando <strong>CRUD completo, validaciones, manejo global de excepciones (GlobalExceptionHandler) y buenas prácticas de capas</strong> de forma progresiva, de lo básico a relaciones complejas.
+          </div>
+          <div class="tech-tags" style="margin-top:6px;">
+            <span class="tech-tag">Java</span><span class="tech-tag">Spring Boot</span><span class="tech-tag">REST APIs</span><span class="tech-tag">POO</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCIA -->
+      <div class="section">
+        <div class="section-title"><span class="dot"></span>Experiencia Laboral</div>
+
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">Desarrollador Web Fullstack</div>
+            <div class="job-company">Universidad Internacional UNINTER</div>
+            <div class="job-meta">
+              <span>📅 Sep 2023 – Actual</span>
+              <span>📍 Cuernavaca, Morelos</span>
+            </div>
+          </div>
+          <ul>
+            <li>Diseñé e implementé <strong>más de 4 plataformas digitales institucionales</strong> con arquitectura en capas, reduciendo tiempos de gestión manual en aproximadamente <strong>60%</strong>.</li>
+            <li>Definí la <strong>arquitectura tecnológica</strong> de sistemas administrativos internos adoptados por <strong>5+ áreas</strong> de la universidad.</li>
+            <li>Construí un <strong>CRM</strong> que centralizó el seguimiento de <strong>+500 prospectos estudiantiles</strong> mensuales mediante consumo y exposición de APIs REST.</li>
+            <li>Coordiné técnicamente <strong>3+ proyectos simultáneos</strong> multidisciplinarios alineando equipos de diseño, operaciones y tecnología.</li>
+            <li>Implementé <strong>pipelines de CI/CD con GitHub Actions</strong> para automatizar pruebas y despliegue, mejorando la eficiencia del ciclo de desarrollo.</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tech-tag">Vue 3</span>
+            <span class="tech-tag">NestJS</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">APIs REST</span>
+            <span class="tech-tag">GitHub Actions</span>
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="job-header">
+            <div class="job-title">Desarrollador Front/Back-end</div>
+            <div class="job-company">AccionTI</div>
+            <div class="job-meta">
+              <span>📅 May 2022 – Ene 2023</span>
+              <span>📍 Monterrey, Nuevo León</span>
+            </div>
+          </div>
+          <ul>
+            <li>Desarrollé y mantuve <strong>+8 aplicaciones web progresivas (PWA)</strong> para clientes de la empresa.</li>
+            <li>Automaticé la <strong>logística de procesos internos</strong> mediante su virtualización, reduciendo dependencia de flujos manuales en <strong>~50%</strong>.</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tech-tag">React Native</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">TypeScript</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDE -->
+    <div class="side-col">
+
+      <!-- FORMACIÓN -->
+      <div class="side-section">
+        <div class="side-section-title"><span class="dot" style="width:7px;height:7px;background:var(--red);border-radius:50%;display:inline-block;"></span>Formación</div>
+        <div class="edu-item">
+          <div class="edu-degree">Ing. en Desarrollo y Gestión de Software</div>
+          <div class="edu-school">Univ. Tecnológica Emiliano Zapata</div>
+          <div class="edu-period">May 2022 – Abr 2025 · Emiliano Zapata, Mor.</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-degree">TSU en Desarrollo de Software Multiplataforma</div>
+          <div class="edu-school">Univ. Tecnológica Emiliano Zapata</div>
+          <div class="edu-period">Jul 2020 – Abr 2022 · Emiliano Zapata, Mor.</div>
+        </div>
+      </div>
+
+      <!-- TECNOLOGÍAS -->
+      <div class="side-section">
+        <div class="side-section-title"><span class="dot" style="width:7px;height:7px;background:var(--red);border-radius:50%;display:inline-block;"></span>Tecnologías</div>
+        <div class="skill-row">
+          <div class="skill-label">Backend Java</div>
+          <div class="skill-chips">
+            <span class="skill-chip highlight">Java</span>
+            <span class="skill-chip highlight">Spring Boot</span>
+            <span class="skill-chip highlight">JPA / Hibernate</span>
+            <span class="skill-chip">Maven</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Bases de datos</div>
+          <div class="skill-chips">
+            <span class="skill-chip">PostgreSQL</span>
+            <span class="skill-chip">MySQL</span>
+            <span class="skill-chip">MongoDB</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Frontend</div>
+          <div class="skill-chips">
+            <span class="skill-chip">Angular</span>
+            <span class="skill-chip">Vue 3</span>
+            <span class="skill-chip">React</span>
+            <span class="skill-chip">HTML/CSS</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Otros backend</div>
+          <div class="skill-chips">
+            <span class="skill-chip">NestJS</span>
+            <span class="skill-chip">Node.js</span>
+            <span class="skill-chip">.NET</span>
+            <span class="skill-chip">PHP</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Herramientas</div>
+          <div class="skill-chips">
+            <span class="skill-chip">Git</span>
+            <span class="skill-chip">GitHub Actions</span>
+            <span class="skill-chip">AWS</span>
+            <span class="skill-chip">Docker</span>
+            <span class="skill-chip">Postman</span>
+          </div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Desarrollo con IA</div>
+          <div class="skill-chips">
+            <span class="skill-chip">GitHub Copilot</span>
+            <span class="skill-chip">Claude</span>
+            <span class="skill-chip">ChatGPT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FUNDAMENTOS POO -->
+      <div class="side-section">
+        <div class="side-section-title"><span class="dot" style="width:7px;height:7px;background:var(--red);border-radius:50%;display:inline-block;"></span>Fundamentos POO</div>
+        <ul class="comp-list">
+          <li>Herencia, encapsulamiento, polimorfismo</li>
+          <li>Arquitectura en capas (Controller-Service-Repository)</li>
+          <li>Relaciones JPA (1:N, N:M)</li>
+          <li>DTOs y mapeo de entidades</li>
+          <li>Manejo global de excepciones</li>
+          <li>Validaciones con Jakarta Validation</li>
+        </ul>
+      </div>
+
+      <!-- COMPETENCIAS -->
+      <div class="side-section">
+        <div class="side-section-title"><span class="dot" style="width:7px;height:7px;background:var(--red);border-radius:50%;display:inline-block;"></span>Competencias</div>
+        <ul class="comp-list">
+          <li>Metodologías ágiles (Scrum/Kanban)</li>
+          <li>Resolución de problemas</li>
+          <li>Trabajo en equipo multidisciplinario</li>
+          <li>Adaptación rápida a nuevos stacks</li>
+        </ul>
+      </div>
+
+      <!-- IDIOMAS -->
+      <div class="side-section">
+        <div class="side-section-title"><span class="dot" style="width:7px;height:7px;background:var(--red);border-radius:50%;display:inline-block;"></span>Idiomas</div>
+        <div class="lang-item">
+          <span class="lang-name">Español</span>
+          <span class="lang-level">Nativo</span>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name">Inglés</span>
+          <span class="lang-level">B2</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

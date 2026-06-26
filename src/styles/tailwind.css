@@ -1,0 +1,4 @@
+/* Tailwind — only used inside /preview routes */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
