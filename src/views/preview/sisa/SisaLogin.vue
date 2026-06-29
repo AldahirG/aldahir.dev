@@ -319,4 +319,10 @@ async function handleLogin() {
   border-radius: 4px;
   color: #6b7280;
 }
+
+@media (max-width: 640px) {
+  .sisa-root { flex-direction: column; height: auto; min-height: 100vh; }
+  .left-panel { display: none; }
+  .right-panel { padding: 32px 20px; flex: 1; }
+}
 </style>

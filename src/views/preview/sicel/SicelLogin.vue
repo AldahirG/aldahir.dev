@@ -245,4 +245,11 @@ async function handleLogin() {
   font-size: 11px;
   color: #d1d5db;
 }
+
+@media (max-width: 640px) {
+  .sicel-login-root { padding: 52px 12px 12px; align-items: flex-start; }
+  .sicel-login-card { flex-direction: column; min-height: unset; }
+  .login-left { display: none; }
+  .login-right { padding: 32px 20px; }
+}
 </style>

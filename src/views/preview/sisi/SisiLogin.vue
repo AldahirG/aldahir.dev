@@ -276,4 +276,10 @@ async function handleLogin() {
   box-shadow: 0 4px 20px rgba(164,53,254,0.4);
 }
 .submit-btn:disabled { opacity: 0.5; cursor: default; }
+
+@media (max-width: 640px) {
+  .sisi-login-root { align-items: flex-start; padding: 52px 0 0; }
+  .login-container { flex-direction: column; border-radius: 0; min-height: calc(100vh - 52px); }
+  .login-left { display: none; }
+}
 </style>
