@@ -59,4 +59,11 @@ defineProps({
   font-size: 12px;
   opacity: 0.6;
 }
+
+@media (max-width: 640px) {
+  .preview-banner { padding: 6px 12px; gap: 8px; flex-wrap: nowrap; overflow-x: auto; }
+  .separator { display: none; }
+  .credentials { display: none; }
+  .back-link { font-size: 12px; white-space: nowrap; }
+}
 </style>

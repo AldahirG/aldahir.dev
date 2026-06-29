@@ -206,4 +206,49 @@ function logout() {
   overflow: auto;
   background: #f8fafc;
 }
+
+@media (max-width: 640px) {
+  .sicel-app { flex-direction: column; height: auto; min-height: 100vh; }
+
+  .sicel-sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    flex-shrink: 0;
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .sidebar-brand { padding: 10px 14px; flex-shrink: 0; }
+
+  .sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    padding: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .nav-section-label { display: none; }
+
+  .nav-link {
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px 10px;
+    font-size: 11px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    border-left: none !important;
+    border-bottom: 2px solid transparent;
+  }
+  .nav-link--active { border-bottom: 2px solid #2d5a8e; border-left: none; }
+
+  .sidebar-user { display: none; }
+
+  .sicel-main { overflow-x: auto; }
+}
 </style>

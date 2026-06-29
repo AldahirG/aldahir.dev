@@ -209,4 +209,61 @@ function logout() {
 .logout-btn:hover { color: #ef4444; background: #fef2f2; }
 
 .sisa-main { flex: 1; overflow: auto; background: #f3f4f6; }
+
+@media (max-width: 640px) {
+  .sisa-app { flex-direction: column; height: auto; min-height: 100vh; }
+
+  .sisa-sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    flex-shrink: 0;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .sidebar-top { padding: 10px 12px; flex-shrink: 0; }
+
+  .sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    padding: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .nav-group {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    margin-bottom: 0;
+  }
+
+  .group-label { display: none; }
+
+  .nav-item {
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px 10px;
+    font-size: 11px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    border-left: none !important;
+    border-bottom: 2px solid transparent;
+  }
+  .nav-item--active { border-bottom: 2px solid #1d4ed8; border-left: none; }
+
+  .sidebar-footer-brand { display: none; }
+
+  .sisa-content { flex: 1; }
+
+  .sisa-topbar { padding: 8px 12px; }
+  .user-nm { display: none; }
+
+  .sisa-main { overflow-x: auto; }
+}
 </style>

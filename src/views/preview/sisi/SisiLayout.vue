@@ -152,4 +152,45 @@ function logout() {
 .logout-btn:hover { color: #f87171; }
 
 .sisi-main { flex: 1; overflow: auto; background: #121212; }
+
+@media (max-width: 640px) {
+  .sisi-app { flex-direction: column; height: auto; min-height: 100vh; }
+
+  .sisi-sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    flex-shrink: 0;
+    border-right: none;
+    border-bottom: 1px solid #2a2a2a;
+    overflow-x: auto;
+    overflow-y: hidden;
+    align-items: center;
+    padding: 0 8px;
+    gap: 4px;
+  }
+
+  .sidebar-logo { padding: 10px 12px; font-size: 16px; flex-shrink: 0; border-bottom: none; }
+
+  .sidebar-nav {
+    flex: 1;
+    flex-direction: row;
+    gap: 4px;
+    padding: 6px 4px;
+    overflow-x: auto;
+  }
+
+  .nav-item {
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px 10px;
+    font-size: 11px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .sidebar-footer { display: none; }
+
+  .sisi-main { overflow-x: auto; }
+}
 </style>
